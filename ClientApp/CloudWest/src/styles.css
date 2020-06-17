@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@font-face {
+  font-family: degaws;
+  src: url(assets/degaws.otf) format("opentype");
+}
+
+.voteFont {
+  font-family: 'degaws', 'arial', sans-serif !important;
+}
+
+.row {
+  margin: 0 0 10px 0;
+}
+
+.no-margin{
+  margin:0;
+}
+
+.create {
+  border: 1px solid;
+  margin-bottom: 15px;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
