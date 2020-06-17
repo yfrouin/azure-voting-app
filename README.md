@@ -17,7 +17,7 @@ This example contains two projects :
 - Clone the repo
 
 - Azure Functions
-  - Set the two connection strings in local.settings.json :
+  - Add the two connection strings in the application settings :
     -  CosmosDBConnection
     -  AzureSignalRConnectionString
   - Build with Visual Studio 2019 or Visual Studio Code
