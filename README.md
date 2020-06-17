@@ -8,7 +8,7 @@ This example contains two projects :
 ## Requirements
 
 - A valid Microsoft Azure Subscription (try it for free [here](https://azure.microsoft.com/free/))
-- An Azure CosmosDB resource with a Database "Votes" and a container "Votes"
+- An Azure CosmosDB resource with a Database "Votes" and a container "Votes" with the partition key "/eventName"
 - An Azure SignalR resource
 - Nodejs
 

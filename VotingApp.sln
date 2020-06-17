@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWest", "CloudWest.csproj", "{B38B510C-5D92-4653-8BDA-D642DE4913C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingApp", "VotingApp.csproj", "{B38B510C-5D92-4653-8BDA-D642DE4913C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
