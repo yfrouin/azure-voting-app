@@ -1,19 +1,17 @@
-using System.Collections.Generic;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 
 namespace CloudWest.Functions
 {
     public static class GetVotes
     {
-        [FunctionName("GetVotes")]
+        [Function("GetVotes")]
         public static IEnumerable<Vote> GetVotesFunction(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "vote/{eventName}")] HttpRequest req,
-            [CosmosDB(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "vote/{eventName}")] HttpRequestData req,
+            [CosmosDBInput(
                 databaseName: "Votes",
-                collectionName: "Votes",
-                ConnectionStringSetting = "CosmosDBConnection",
+                containerName: "Votes",
+                Connection = "CosmosDBConnection",
                 SqlQuery = "SELECT * FROM Votes where Votes.eventName = {eventName} order by Votes.id desc")]
                 IEnumerable<Vote> votes)
         {

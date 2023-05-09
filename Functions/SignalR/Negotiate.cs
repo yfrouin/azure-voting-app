@@ -1,16 +1,14 @@
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Azure.WebJobs.Extensions.SignalRService;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 
 namespace CloudWest.Functions
 {
     public static class SignalRNegotiate
     {
-        [FunctionName("negotiate")]
-        public static SignalRConnectionInfo Negotiate(
-        [HttpTrigger(AuthorizationLevel.Anonymous)] HttpRequest req,
-        [SignalRConnectionInfo(HubName = "votes")] SignalRConnectionInfo connectionInfo)
+        [Function("negotiate")]
+        public static string Negotiate(
+        [HttpTrigger(AuthorizationLevel.Anonymous)] HttpRequestData req,
+        [SignalRConnectionInfoInput(HubName = "votes")] string connectionInfo)
         {
             return connectionInfo;
         }

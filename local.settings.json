@@ -2,9 +2,13 @@
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
     "CosmosDBConnection": "<YOUR_COSMOS_DB_CONNECTION_STRING_HERE>",
     "AzureSignalRConnectionString": "<YOUR_SIGNALR_CONNECTION_STRING_HERE>",
     "AzureSignalRServiceTransportType": "Transient"
+  },
+  "Host": {
+    "CORS": "http://localhost:4200",
+    "CORSCredentials": true
   }
 }

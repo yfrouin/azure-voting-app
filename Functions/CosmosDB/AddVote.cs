@@ -1,29 +1,31 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using My.Namespace.models;
+using System.Net;
 
 namespace CloudWest.Functions
 {
     public static class AddVote
     {
-        [FunctionName("AddVote")]
-        public static IActionResult AddVoteFunction(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "vote/{eventName}/{voteId}/{side}")] HttpRequest req,
-            [CosmosDB(databaseName: "Votes", collectionName: "Votes", Id = "{voteId}", PartitionKey = "{eventName}", ConnectionStringSetting = "CosmosDBConnection")] Vote voteIn,
-            [CosmosDB(databaseName: "Votes", collectionName: "Votes", ConnectionStringSetting = "CosmosDBConnection")] out Vote voteOut,
+        [Function("AddVote")]
+        public static VoteResponse AddVoteFunction(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "vote/{eventName}/{voteId}/{side}")] HttpRequestData req,
+            [CosmosDBInput(databaseName: "Votes", containerName: "Votes", Id = "{voteId}", PartitionKey = "{eventName}", Connection = "CosmosDBConnection")] Vote voteIn,
             string side)
         {
-            voteOut = voteIn;
             if (side == "left")
             {
-                voteOut.leftVotes++;
+                voteIn.leftVotes++;
             }
             else
             {
-                voteOut.rightVotes++;
+                voteIn.rightVotes++;
             }
-            return new OkResult();
+            return new VoteResponse()
+            {
+                Vote = voteIn,
+                HttpResponse = req.CreateResponse(HttpStatusCode.OK)
+            };
         }
     }
 }

@@ -1,20 +1,25 @@
-using System.Threading.Tasks;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using My.Namespace.models;
+using System.Net;
 
 namespace CloudWest.Functions
 {
     public static class CreateVote
     {
-        [FunctionName("CreateVote")]
-        public static async Task CreateVoteFunction(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "vote")] Vote vote,
-            [CosmosDB(
-                databaseName: "Votes",
-                collectionName: "Votes",
-                ConnectionStringSetting = "CosmosDBConnection")]IAsyncCollector<Vote> votes)
+        [Function("CreateVote")]
+        public static async Task<VoteResponse> CreateVoteFunction(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "vote")] HttpRequestData req)
         {
-            await votes.AddAsync(vote);
+            var vote = await req.ReadFromJsonAsync<Vote>();
+            vote!.id = Guid.NewGuid().ToString();
+            var response = req.CreateResponse(HttpStatusCode.OK);
+
+            return new VoteResponse()
+            {
+                Vote = vote!,
+                HttpResponse = response
+            };
         }
     }
 }

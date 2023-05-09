@@ -1,28 +1,19 @@
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.Azure.Documents;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.SignalRService;
+using Microsoft.Azure.Functions.Worker;
 
 namespace CloudWest.Functions
 {
     public static class CosmosDBTrigger
     {
-        [FunctionName("CosmosDBTrigger")]
-        public static Task Run([CosmosDBTrigger(
+        [Function("CosmosDBTrigger")]
+        [SignalROutput(HubName = "votes")]
+        public static SignalRMessageAction Run([CosmosDBTrigger(
             databaseName: "Votes",
-            collectionName: "Votes",
-            ConnectionStringSetting = "CosmosDBConnection",
-            LeaseCollectionName = "VotesLeases",
-            CreateLeaseCollectionIfNotExists = true)] IReadOnlyList<Document> votes,
-            [SignalR(HubName = "votes")] IAsyncCollector<SignalRMessage> signalRMessages)
+            containerName: "Votes",
+            Connection = "CosmosDBConnection",
+            LeaseContainerName = "VotesLeases",
+            CreateLeaseContainerIfNotExists = true)] IReadOnlyList<Vote> votes)
         {
-            return signalRMessages.AddAsync(
-                new SignalRMessage
-                {
-                    Target = "votesUpdated",
-                    Arguments = new[] { votes }
-                });
+            return new SignalRMessageAction("votesUpdated", new[] { votes });
         }
     }
 }
